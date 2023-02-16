@@ -8,13 +8,14 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
     public TextMeshProUGUI countText;
-    public GameObject winTextObject;
+   
+    // public GameObject winTextObject;
 
     private AudioSource coinSound;
-    private Rigidbody rb;
+    public Rigidbody rb;
     private float movementX;
     private float movementY;
-    private int count;
+    public int count;
 
 
     // Start is called before the first frame update
@@ -24,7 +25,7 @@ public class PlayerController : MonoBehaviour
         coinSound = GetComponent<AudioSource>();
         count = 0;
         SetCountText();
-        winTextObject.SetActive(false);
+        // winTextObject.SetActive(false);
     }
 
     private void OnMove(InputValue movementValue)
@@ -39,16 +40,16 @@ public class PlayerController : MonoBehaviour
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
-        if(count == 12)
-        {
-            winTextObject.SetActive(true);
-        }
+        // if(count == 12)
+        // {
+        //     winTextObject.SetActive(true);
+        // }
     }
 
     void FixedUpdate()
     {
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
-        rb.AddForce(movement * speed);
+        rb.AddForce(movement * speed);   
     }
 
     private void OnTriggerEnter(Collider other)
