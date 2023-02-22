@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     private Connection connection;
 
     public float initialTimeToPickupObject = 1.0f;
-    public int maxPickupObjects = 12;
+    public int maxPickupObjects = 16;
 
     private bool hasEnd = false;
 
@@ -90,6 +90,11 @@ public class GameManager : MonoBehaviour
         {
             timerText.text = "0.00 s";
             // if the timer is 0, then end the game
+            EndGame();
+        }
+
+        if (playerController.rb.transform.position.y < 0)
+        {
             EndGame();
         }
 
