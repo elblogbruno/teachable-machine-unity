@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
     public TextMeshProUGUI countText;
-   
+    public bool isGrounded;
+    public float jumpSpeed = 3;
+
     // public GameObject winTextObject;
 
     private AudioSource coinSound;
@@ -46,6 +48,16 @@ public class PlayerController : MonoBehaviour
         // }
     }
 
+    private void Update()
+    {
+
+        if (Input.GetKeyDown("space") && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+            isGrounded = false;
+        }
+    }
+
     void FixedUpdate()
     {
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
@@ -64,6 +76,11 @@ public class PlayerController : MonoBehaviour
             SetCountText();
         }
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        isGrounded = true;
     }
 
 }
