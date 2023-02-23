@@ -22,6 +22,7 @@ public class Connection : MonoBehaviour
 
   GameManager gameManager;
 
+  bool isPaused = false;
 
   // Start is called before the first frame update
   async void Start()
@@ -51,7 +52,7 @@ public class Connection : MonoBehaviour
     websocket.OnMessage += (bytes) =>
     {
       // Debug.Log("OnMessage!");
-      Debug.Log("OnMessage! " + bytes.Length);
+      // Debug.Log("OnMessage! " + bytes.Length);
 
       // getting the message as a string
       var message = System.Text.Encoding.UTF8.GetString(bytes);
@@ -127,16 +128,28 @@ public class Connection : MonoBehaviour
 
             // show the pause menu
             // pauseMenuPanel.SetActive(true);
+            if (isPaused)
+              return;
+
             gameManager.OnPauseButton(true);
+            isPaused = true;
+            
 
             break;
           case "HidePauseMenu":
             
-              // hide the pause menu
-              // pauseMenuPanel.SetActive(false);
-              gameManager.OnPauseButton(false);
-  
-              break;
+            // hide the pause menu
+            // pauseMenuPanel.SetActive(false);
+            
+            // only hide the pause menu if it is visible (if the game is paused) and if some frames have passed
+            // this is to avoid the pause menu to be hidden when the game is not paused
+            if (!isPaused)
+              return;
+
+              gameManager.OnPauseButton(false); 
+              isPaused = false;
+
+            break;
           case "Jump":
             //  press space to jump
             InputSystem.QueueStateEvent(device, new KeyboardState(Key.Space));

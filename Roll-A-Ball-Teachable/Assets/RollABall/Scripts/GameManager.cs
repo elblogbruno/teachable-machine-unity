@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         pauseMenu.TogglePauseMenuPanel();
 
         bool isPaused = pauseMenu.isPaused; // get the current state of the pause menu
-        connection.ToggleWebsocketControl(isPaused);
+        // connection.ToggleWebsocketControl(isPaused);
 
         pauseMenu.ShouldReset(isPaused);
 
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
 
         pauseMenu.TogglePauseMenuPanel();
 
-        connection.ToggleWebsocketControl(isPaused);
+        // connection.ToggleWebsocketControl(!isPaused);
 
         pauseMenu.ShouldReset(isPaused);
 
@@ -108,6 +108,11 @@ public class GameManager : MonoBehaviour
             timerText.text = initialTimeToPickupObject.ToString("F2") + " s";
 
             if (playerController.count >= maxPickupObjects)
+            {
+                EndGame();
+            }
+
+            if (playerController.rb.transform.position.y < 0)
             {
                 EndGame();
             }

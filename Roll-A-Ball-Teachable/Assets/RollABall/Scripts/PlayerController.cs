@@ -58,38 +58,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        // get Jump input and add force to the player
-        // var jump =  Keyboard.current.spaceKey.wasPressedThisFrame;
+    // private void Update()
+    // {
+    //     // get Jump input and add force to the player
+    //     // var jump =  Keyboard.current.spaceKey.wasPressedThisFrame;
 
         
         
-        // if (Input.GetKeyDown("space") && isGrounded)
-        // {
-        //     rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
-        //     isGrounded = false;
-        // }
+    //     // if (Input.GetKeyDown("space") && isGrounded)
+    //     // {
+    //     //     rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+    //     //     isGrounded = false;
+    //     // }
 
-        // check if the player is free falling for more than 1 second and if so, reset the game
-        if (rb.velocity.y < 0)
-        {
-            timer += Time.deltaTime;
-            if (timer > 4.0f)
-            {
-                // reset the game
-                // reset the timer
-                timer = 0.0f;
-                // reset the player position
-                transform.position = new Vector3(0, 0.5f, 0);
-            }
-        }
-        else
-        {
-            timer = 0.0f;
-        }
+    //     // check if the player is free falling for more than 1 second and if so, reset the game
+    //     if (rb.velocity.y < 0)
+    //     {
+    //         timer += Time.deltaTime;
+    //         if (timer > 4.0f)
+    //         {
+    //             // reset the game
+    //             // reset the timer
+    //             timer = 0.0f;
+    //             // reset the player position
+    //             transform.position = new Vector3(0, 0.5f, 0);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         timer = 0.0f;
+    //     }
 
-    }
+    // }
 
     void FixedUpdate()
     {
