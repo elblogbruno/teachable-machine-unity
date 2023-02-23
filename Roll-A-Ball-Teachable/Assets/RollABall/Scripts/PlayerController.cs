@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
-
 public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
@@ -11,13 +10,14 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded;
     public float jumpSpeed = 3;
 
-    // public GameObject winTextObject;
 
     private AudioSource coinSound;
     public Rigidbody rb;
     private float movementX;
     private float movementY;
     public int count;
+
+    public float timer = 0.0f;
 
 
     // Start is called before the first frame update
@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
         coinSound = GetComponent<AudioSource>();
         count = 0;
         SetCountText();
-        // winTextObject.SetActive(false);
+
+
     }
 
     private void OnMove(InputValue movementValue)
@@ -48,14 +49,46 @@ public class PlayerController : MonoBehaviour
         // }
     }
 
-    private void Update()
+    void OnJump()
     {
-
-        if (Input.GetKeyDown("space") && isGrounded)
+        if (isGrounded)
         {
             rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
             isGrounded = false;
         }
+    }
+
+    private void Update()
+    {
+        // get Jump input and add force to the player
+        // var jump =  Keyboard.current.spaceKey.wasPressedThisFrame;
+
+        
+        
+        // if (Input.GetKeyDown("space") && isGrounded)
+        // {
+        //     rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+        //     isGrounded = false;
+        // }
+
+        // check if the player is free falling for more than 1 second and if so, reset the game
+        if (rb.velocity.y < 0)
+        {
+            timer += Time.deltaTime;
+            if (timer > 4.0f)
+            {
+                // reset the game
+                // reset the timer
+                timer = 0.0f;
+                // reset the player position
+                transform.position = new Vector3(0, 0.5f, 0);
+            }
+        }
+        else
+        {
+            timer = 0.0f;
+        }
+
     }
 
     void FixedUpdate()

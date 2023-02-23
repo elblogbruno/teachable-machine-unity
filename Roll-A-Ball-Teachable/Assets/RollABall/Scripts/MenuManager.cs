@@ -8,6 +8,8 @@ public class MenuManager : MonoBehaviour
     public GameObject gestureHelpPanel;
     public GameObject pauseMenuPanel;
 
+    public GameObject mainButtonsPanel;
+
     public bool isMainMenu = false;
 
     public GameObject pauseMenuButton;
@@ -23,6 +25,10 @@ public class MenuManager : MonoBehaviour
     // event for when the play button is pressed
     [Header("When the play button is pressed")]
     public UnityEvent OnPlayButtonPressed;
+
+    // event for when the sound button is pressed
+    [Header("When the sound button is pressed")]
+    public UnityEvent<bool> OnSoundButtonPressed;
     
     void Start()
     {
@@ -34,6 +40,8 @@ public class MenuManager : MonoBehaviour
     public void ToggleGestureHelpPanel()
     {
         gestureHelpPanel.SetActive(!gestureHelpPanel.activeSelf);
+
+        mainButtonsPanel.SetActive(!gestureHelpPanel.activeSelf);
     }
 
     public void TogglePauseMenuPanel()
@@ -62,9 +70,30 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void OnToggleAudioButton()
+    {
+        Debug.Log("Toggle audio button pressed");
+        AudioListener.pause = !AudioListener.pause;
+
+        if (OnSoundButtonPressed != null)
+        {
+            OnSoundButtonPressed.Invoke(AudioListener.pause);
+        }
+    }
+
     // on disable, make sure the gesture help panel is hidden
     void OnDisable()
     {
         gestureHelpPanel.SetActive(false);
+    }
+
+    public void ShouldReset(bool isPaused)
+    {
+        if (!isPaused)
+        {
+            // reset the menu 
+            gestureHelpPanel.SetActive(false);
+            mainButtonsPanel.SetActive(true);
+        }
     }
 }
