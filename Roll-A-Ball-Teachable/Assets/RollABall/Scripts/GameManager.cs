@@ -50,6 +50,26 @@ public class GameManager : MonoBehaviour
         bool isPaused = pauseMenu.isPaused; // get the current state of the pause menu
         connection.ToggleWebsocketControl(isPaused);
 
+        pauseMenu.ShouldReset(isPaused);
+
+        if (OnPauseButtonPressed != null)
+        {
+            OnPauseButtonPressed.Invoke(isPaused);
+        }
+    }
+
+    public void OnPauseButton(bool isPaused)
+    {
+        Debug.Log("Pause button pressed");
+
+        Time.timeScale = isPaused ? 0 : 1;
+
+        pauseMenu.TogglePauseMenuPanel();
+
+        connection.ToggleWebsocketControl(isPaused);
+
+        pauseMenu.ShouldReset(isPaused);
+
         if (OnPauseButtonPressed != null)
         {
             OnPauseButtonPressed.Invoke(isPaused);
@@ -58,13 +78,14 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayButton()
     {
-        if (hasEnd)
+        Debug.Log("Play button pressed");
+
+        if (hasEnd) // we move the user to the main menu if the game has ended (win or lose) 
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
 
-        Debug.Log("Play button pressed");
-        pauseMenu.TogglePauseMenuPanel();
+        OnPauseButton();
     }
 
     // Update is called once per frame
@@ -85,6 +106,11 @@ public class GameManager : MonoBehaviour
         {
             initialTimeToPickupObject -= Time.deltaTime;
             timerText.text = initialTimeToPickupObject.ToString("F2") + " s";
+
+            if (playerController.count >= maxPickupObjects)
+            {
+                EndGame();
+            }
         }
         else
         {

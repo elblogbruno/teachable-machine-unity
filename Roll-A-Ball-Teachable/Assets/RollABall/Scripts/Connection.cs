@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 using NativeWebSocket;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UI;
 
@@ -20,11 +20,16 @@ public class Connection : MonoBehaviour
 
   bool isWebsocketControl = false;
 
+  GameManager gameManager;
+
+
   // Start is called before the first frame update
   async void Start()
   {
     // get the device
     device = InputSystem.GetDevice<Keyboard>();
+
+    gameManager = GetComponent<GameManager>();
 
     websocket = new WebSocket("ws://localhost:8080");
 
@@ -46,7 +51,7 @@ public class Connection : MonoBehaviour
     websocket.OnMessage += (bytes) =>
     {
       // Debug.Log("OnMessage!");
-      // Debug.Log(bytes);
+      Debug.Log("OnMessage! " + bytes.Length);
 
       // getting the message as a string
       var message = System.Text.Encoding.UTF8.GetString(bytes);
@@ -118,6 +123,26 @@ public class Connection : MonoBehaviour
             InputSystem.Update();
 
             break;
+          case "ShowPauseMenu":
+
+            // show the pause menu
+            // pauseMenuPanel.SetActive(true);
+            gameManager.OnPauseButton(true);
+
+            break;
+          case "HidePauseMenu":
+            
+              // hide the pause menu
+              // pauseMenuPanel.SetActive(false);
+              gameManager.OnPauseButton(false);
+  
+              break;
+          case "Jump":
+            //  press space to jump
+            InputSystem.QueueStateEvent(device, new KeyboardState(Key.Space));
+            InputSystem.Update();
+
+            break;
           default:
             Debug.Log("Neutral");
 
@@ -137,16 +162,16 @@ public class Connection : MonoBehaviour
 
   public void ToggleWebsocketControl()
   {
-     isWebsocketControl = !isWebsocketControl; // toggle if we want also to control the ball with the websocket input
+    isWebsocketControl = !isWebsocketControl; // toggle if we want also to control the ball with the websocket input
 
-     commandText.text = isWebsocketControl ? "Hand" :  "WASD";
+    commandText.text = isWebsocketControl ? "Hand" :  "WASD";
   }
 
    public void ToggleWebsocketControl(bool isPaused)
   {
-     isWebsocketControl = isPaused; // toggle if we want also to control the ball with the websocket input
+    isWebsocketControl = isPaused; // toggle if we want also to control the ball with the websocket input
 
-      commandText.text = isWebsocketControl ? "Hand" :  "WASD";
+    commandText.text = isWebsocketControl ? "Hand" :  "WASD";
   }
 
   void Update()
