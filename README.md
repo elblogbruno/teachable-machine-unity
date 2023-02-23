@@ -1,5 +1,9 @@
 # Labo 3 
 
+### Demo Video
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/SjZyYAE5qo4/0.jpg)](https://www.youtube.com/watch?v=SjZyYAE5qo4)
+
 ## 1. Introduction
 
 Ce laboratoire a pour but de developer le jeu Roll-A-Ball en interagissant avec notre main grace a Google Teachable Machine.
@@ -26,3 +30,4 @@ La seconde est qu'il y a quatre plateformes dans le jeu. Les joueurs doivent sau
 Pour gagner le jeu, vous devez ramasser tous les objets sur l'écran en 1 minute. 
 Si vous dépassez une minute, vous perdez. Une autre façon de perdre est de sauter en dehors de la plate-forme.
 
+P5 js envoie le flux de la caméra encodé en base64 et nous le décodons dans unity pour afficher les images de la caméra. Comme il s'agit de petites images, il n'y a pas beaucoup de retard.
